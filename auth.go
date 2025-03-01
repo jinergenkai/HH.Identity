@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,15 +16,21 @@ import (
 var jwtSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	username := r.URL.Query().Get("username")
-	password := r.URL.Query().Get("password")
+	// username := r.URL.Query().Get("username")
+	// password := r.URL.Query().Get("password")
 
-	// print username and password
-	fmt.Println("đăng nhập")
-	// fmt.Println("đăng nhập", username, password)
+	var creds struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&creds); err != nil {
+		http.Error(w, "Lỗi khi đọc dữ liệu JSON", http.StatusBadRequest)
+		return
+	}
 
 	var hash string
-	err := db.QueryRow("SELECT password_hash FROM account WHERE username=$1", username).Scan(&hash)
+	err := db.QueryRow("SELECT password_hash FROM account WHERE username=$1", creds.Username).Scan(&hash)
 	if err == sql.ErrNoRows {
 		http.Error(w, "Sai tài khoản hoặc mật khẩu", http.StatusUnauthorized)
 		return
@@ -32,13 +39,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(creds.Password)); err != nil {
 		http.Error(w, "Sai tài khoản hoặc mật khẩu", http.StatusUnauthorized)
 		return
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": username,
+		"iss":      "hh-company",
+		"username": creds.Username,
 		"exp":      time.Now().Add(time.Hour * 24 * 365).Unix(),
 	})
 
