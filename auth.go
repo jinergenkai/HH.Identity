@@ -19,6 +19,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	password := r.URL.Query().Get("password")
 
 	// print username and password
+	fmt.Println("đăng nhập")
 	// fmt.Println("đăng nhập", username, password)
 
 	var hash string
