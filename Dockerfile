@@ -11,6 +11,6 @@ RUN go mod download
 COPY . .
 RUN go build -o main .
 
-EXPOSE 9000
+EXPOSE 9999
 
 CMD ["./main"]
