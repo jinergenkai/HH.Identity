@@ -1,0 +1,22 @@
+{
+  "_id": ObjectId, 
+  "name": "Ruộng lúa A",  
+  "location": { 
+    "type": "Polygon",
+    "coordinates": [[[105.85, 21.02], [105.86, 21.03], [105.87, 21.01], [105.85, 21.02]]]
+  },
+  "type": "rice_field",  
+  "area": 5000,   
+  "elevation": 15.2, 
+  "crop_stage": {   
+    "crop_type": "Lúa mùa",  
+    "planted_date": "2024-02-15",
+    "fertilized": true,
+    "days_since_planted": 30,
+    "pesticide_sprayed": ["thuốc ốc", "thuốc cỏ"]
+  },
+  "metadata": {   
+    "water_source": "Tự nhiên",
+    "last_updated": "2024-02-25T12:00:00Z"
+  }
+}

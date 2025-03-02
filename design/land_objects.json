@@ -1,0 +1,15 @@
+{
+  "_id": ObjectId,
+  "land_id": ObjectId,   
+  "name": "Cống nước 1",
+  "type": "water_gate",  
+  "location": { 
+    "type": "Point", 
+    "coordinates": [105.86, 21.02]
+  },
+  "status": "active",
+  "metadata": {
+    "installed_date": "2023-06-10",
+    "last_maintenance": "2024-01-20"
+  }
+}

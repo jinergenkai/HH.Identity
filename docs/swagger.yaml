@@ -1,0 +1,51 @@
+basePath: /api
+definitions:
+  models.Land:
+    properties:
+      area:
+        type: number
+      id:
+        type: string
+      location:
+        $ref: '#/definitions/models.Polygon'
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  models.Polygon:
+    properties:
+      coordinates:
+        items:
+          items:
+            items:
+              type: number
+            type: array
+          type: array
+        type: array
+      type:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: API sử dụng Gin & Swagger
+  title: Land Service API
+  version: "1.0"
+paths:
+  /api/lands:
+    get:
+      description: Trả về danh sách tất cả các vùng đất
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Land'
+            type: array
+      summary: Lấy danh sách vùng đất
+      tags:
+      - Lands
+swagger: "2.0"
